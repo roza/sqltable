@@ -67,7 +67,7 @@ class SQLTable(Table):
 
         # Run the query
         try:
-            query = '\n'.join(self.content)
+            query = sqlalchemy.text('\n'.join(self.content))
             LOG.info('Running query %r' % query)
             with engine.connect() as conn:
                 result = conn.execute(query)
@@ -81,6 +81,7 @@ class SQLTable(Table):
                 line=self.lineno,
             )
             return [error]
+
 
         # Extract some values we need for building the table.
         table_headers = results.keys()
