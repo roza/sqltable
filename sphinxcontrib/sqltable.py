@@ -69,7 +69,8 @@ class SQLTable(Table):
         try:
             query = '\n'.join(self.content)
             LOG.info('Running query %r' % query)
-            results = engine.execute(query)
+            with engine.connect() as conn:
+                result = conn.execute(query)
         except Exception as err:
             error = self.state_machine.reporter.error(
                 u'Error with query %s for sqltable: %s' % (
